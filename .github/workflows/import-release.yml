@@ -1,0 +1,55 @@
+name: Import add-on release
+on:
+  workflow_dispatch:
+    inputs:
+      source_repository:
+        description: 'Public source repository (owner/repo)'
+        required: true
+        default: stefan-commits/NordVPN-Kodi-Plugin
+      tag:
+        description: 'Release tag (for example v6.0.5)'
+        required: true
+      asset:
+        description: 'Exact ZIP filename (for example service.nord.vpn-6.0.5.zip)'
+        required: true
+permissions:
+  contents: write
+concurrency:
+  group: import-release
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download and validate release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_REPO: ${{ inputs.source_repository }}
+          RELEASE_TAG: ${{ inputs.tag }}
+          ASSET: ${{ inputs.asset }}
+        run: |
+          python - <<'PY'
+          import os, re
+          assert re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', os.environ['SOURCE_REPO'])
+          assert re.fullmatch(r'[A-Za-z0-9_.-]+\.zip', os.environ['ASSET'])
+          assert re.fullmatch(r'[A-Za-z0-9_.-]+', os.environ['RELEASE_TAG'])
+          PY
+          mkdir -p .work/download
+          gh release download "$RELEASE_TAG" --repo "$SOURCE_REPO" --pattern "$ASSET" --dir .work/download
+          python tools/repository.py import ".work/download/$ASSET" --source "https://github.com/$SOURCE_REPO/tree/$RELEASE_TAG"
+          python -m unittest discover -s tests -v
+          python tools/repository.py build --check
+      - name: Publish validated catalog and packages
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add catalog.json docs
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Import validated Kodi add-on release'
+          git push origin HEAD:main

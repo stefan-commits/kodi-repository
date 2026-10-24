@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<addons>
+  <addon id="repository.stefan-commits" name="Stefan's Kodi Repository" version="1.0.0" provider-name="stefan-commits">
+    <extension point="xbmc.addon.repository" name="Stefan's Kodi Repository">
+      <dir minversion="19.0.0">
+        <info compressed="false">https://raw.githubusercontent.com/stefan-commits/kodi-repository/main/docs/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/stefan-commits/kodi-repository/main/docs/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/stefan-commits/kodi-repository/main/docs/</datadir>
+        <hashes>false</hashes>
+      </dir>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en_GB">Kodi add-ons maintained by Stefan</summary>
+      <description lang="en_GB">Install and update Stefan's Kodi add-ons, including the unofficial NordVPN CLI front end for Linux.</description>
+      <platform>all</platform>
+      <license>MIT</license>
+      <source>https://github.com/stefan-commits/kodi-repository</source>
+    </extension>
+  </addon>
+  <addon id="service.nord.vpn" name="NordVPN CLI" version="6.0.4" provider-name="Community">
+    <requires>
+      <import addon="xbmc.python" version="3.0.0" />
+    </requires>
+    <extension point="xbmc.python.script" library="addon.py" />
+    <extension point="xbmc.addon.metadata">
+      <summary lang="en_GB">Control the NordVPN Linux CLI from Kodi</summary>
+      <description lang="en_GB">Token login, server and location selection, VPN settings and allowlist controls. Requires the NordVPN Linux app. Unofficial community add-on.</description>
+      <platform>linux</platform>
+      <license>GPL-3.0-or-later</license>
+      <assets>
+        <icon>icon.png</icon>
+      </assets>
+    </extension>
+  </addon>
+</addons>

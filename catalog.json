@@ -1,0 +1,12 @@
+{
+  "repository.stefan-commits": {
+    "sha256": "7a7f062dd47a21951324093fb40920a542ec009422d627cf0d7d521df8d54bda",
+    "source": "https://github.com/stefan-commits/kodi-repository",
+    "version": "1.0.0"
+  },
+  "service.nord.vpn": {
+    "sha256": "cc77b429f930bb190cabea805165957114560e4b50a2f600981326f0a6a9d204",
+    "source": "https://github.com/stefan-commits/NordVPN-Kodi-Plugin/tree/v6.0.4",
+    "version": "6.0.4"
+  }
+}
