@@ -12,7 +12,7 @@ Installable multi-add-on repository for Kodi 19+ with preserved release ZIPs, a 
 
 [Download page](https://stefan-commits.github.io/kodi-repository/) · [Direct installer fallback](https://raw.githubusercontent.com/stefan-commits/kodi-repository/main/docs/repository.stefan-commits/repository.stefan-commits-1.0.0.zip)
 
-You can also add the download-page URL as a Kodi file-manager source, then browse its repository directory to install the ZIP.
+You can also add the download-page URL as a Kodi file-manager source, then select the repository ZIP shown at the top level.
 
 ## Publish another add-on or an update
 

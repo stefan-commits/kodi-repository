@@ -104,7 +104,8 @@ def build(root, check=False):
     generated['addons.xml'] = xml
     generated['addons.xml.md5'] = hashlib.md5(xml).hexdigest().encode() + b'\n'
     rv = catalog[REPO_ID]['version']
-    installer = f'{REPO_ID}/{REPO_ID}-{rv}.zip'
+    installer = f'{REPO_ID}-{rv}.zip'
+    generated[installer] = (root / 'docs' / REPO_ID / installer).read_bytes()
     generated['index.html'] = f'''<!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Stefan's Kodi Repository</title>
