@@ -112,7 +112,8 @@ def build(root, check=False):
 <style>body{{font:18px/1.6 system-ui;max-width:760px;margin:60px auto;padding:0 24px;background:#101923;color:#e6eef6}}a{{color:#86d6ff}}h1{{line-height:1.2}}li{{margin:12px 0}}</style>
 <h1>Stefan's Kodi Repository</h1>
 <p>A growing collection of Kodi add-ons.</p>
-<p><a href="{installer}">Download the repository ZIP</a></p>
+<p>Download the repository ZIP:</p>
+<p><a href="{installer}">{installer}</a></p>
 <p>In Kodi, enable Unknown sources under Settings → System → Add-ons. Choose Add-ons → Install from zip file and select the downloaded repository ZIP. Then choose Install from repository → Stefan's Kodi Repository.</p>
 <h2>Available add-ons</h2><ul>{''.join(rows)}</ul>
 <p>NordVPN CLI requires Kodi 19 or newer on Linux and the installed NordVPN Linux app. It is an unofficial community add-on.</p>

@@ -1,5 +1,8 @@
 import importlib.util
 import io
+import re
+import html
+from urllib.parse import unquote
 from pathlib import Path
 import shutil
 import tempfile
@@ -48,6 +51,21 @@ class RepositoryTests(unittest.TestCase):
     def test_path_traversal_rejected(self):
         with self.assertRaisesRegex(ValueError, 'Unsafe'):
             r.inspect(self.package(extra=('plugin.test/../../outside', 'bad')).read_bytes())
+
+    def test_installer_visible_to_kodi_http_directory(self):
+        # Kodi HTTPDirectory.cpp requires the decoded href and visible name to
+        # match. Its anchor pattern also requires content after the closing tag.
+        # https://github.com/xbmc/xbmc/blob/Omega/xbmc/filesystem/HTTPDirectory.cpp
+        r.build(self.root)
+        page = (self.root / 'docs/index.html').read_text()
+        anchors = re.findall(r'<a href="([^"]*)"[^>]*>\s*(.*?)\s*</a>(.+?)(?=<a|</tr|$)', page, re.I)
+        visible = [href for href, label, _ in anchors
+                   if html.unescape(label.strip()).rstrip('/') == unquote(href).rstrip('/')]
+        version = r.load(self.root)[r.REPO_ID]['version']
+        installer = f'{r.REPO_ID}-{version}.zip'
+        self.assertIn(installer, visible)
+        self.assertEqual((self.root / 'docs' / installer).read_bytes(),
+                         (self.root / 'docs' / r.REPO_ID / installer).read_bytes())
 
     def test_stale_index_detected(self):
         (self.root / 'docs/addons.xml').write_text('stale')
